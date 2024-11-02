@@ -1,0 +1,54 @@
+package com.practice.examples.dsa;
+
+public class DiameterOfBinaryTree {
+	
+	static int max = 0;
+	public static int getDiameter(Node n) {
+		
+		
+		if(n == null)
+			return 0;
+		
+		int left = getDiameter(n.left);
+		int right = getDiameter(n.right);
+		int diameter = getHeight(n.left) + getHeight(n.right);
+	
+		return Math.max(diameter, left+right);
+	}
+	
+	
+	public static int getHeight(Node n) {
+		
+		
+		if( n == null)
+			return 0;
+		
+		int left = getHeight(n.left);
+		int right = getHeight(n.right);
+		
+		
+		return Math.max(left,right)+1;
+	}
+
+	public static void main(String[] args) {
+		
+		Node n = new Node(1);
+		n.left = new Node(2);
+		n.right = new Node(3);
+		
+		n.right.left = new Node(4);
+		n.right.left.left = new Node(5);
+		n.right.left.left.left = new Node(9);
+		
+		n.right.right = new Node(6);
+		n.right.right.right = new Node(7);
+		n.right.right.right.right = new Node(8);
+		
+		
+		System.out.println("height of the tree is "+getHeight(n));
+		System.out.println("Diameter of the tree is "+getDiameter(n));
+		
+
+	}
+
+}
