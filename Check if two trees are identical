@@ -1,0 +1,32 @@
+package com.practice.examples.dsa;
+
+public class SameTree {
+	
+	public static boolean isSameTree(Node p, Node q) {
+		
+		if( (q != null && p == null) || ( q == null && p != null) ) {
+			return false;
+		}
+		
+		if(q == null && p == null)
+			return true;
+		
+		
+		return isSameTree(p.left,q.left) && isSameTree(p.right,q.right) && (q.data == p.data);
+	}
+
+	public static void main(String[] args) {
+		
+		Node p = new Node(1);
+		p.left = new Node(2);
+		p.right = new Node(3);
+		
+		Node q = new Node(1);
+		q.left = new Node(2);
+		q.right = new Node(3);
+		
+		System.out.println(isSameTree(p,q));
+		
+	}
+
+}
