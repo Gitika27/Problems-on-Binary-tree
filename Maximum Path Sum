@@ -1,0 +1,43 @@
+package com.practice.examples.dsa;
+
+public class MaxPathSum_1 {
+	
+	public static int max = Integer.MIN_VALUE;
+	
+	public static int MaxPath(Node n) {
+		
+		if(n == null)
+			return 0;
+		
+		
+		int left = Math.max(0, MaxPath(n.left));
+		int right = Math.max(0, MaxPath(n.right));
+		
+		
+		int path = left+right+n.data;
+		
+		max = Math.max(max, path);
+		
+		return Math.max(left, right) + n.data;
+	}
+
+	public static void main(String[] args) {
+		
+		Node n = new Node(5);
+		n.left = new Node(4);
+		n.right = new Node(8);
+		n.left.right = new Node(11);
+		n.right.right = new Node(13);
+		n.right.left = new Node(4);
+		n.left.right.left = new Node(7);
+		n.left.right.right = new Node(2);
+		n.right.left.right = new Node(1);
+		
+		
+		MaxPath(n);
+		System.out.println("Maximum path is "+max); 
+		
+		//[5,4,8,11,null,13,4,7,2,null,null,null,1]
+	}
+
+}
