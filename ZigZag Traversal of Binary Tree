@@ -1,0 +1,81 @@
+package com.practice.examples.dsa;
+
+import java.util.*;
+
+public class ZigZagTraversal {
+	
+	public static List<List<Integer>> traverse(Node n){
+		List<List<Integer>> ans = new ArrayList<>();
+		
+		Queue<Node> q = new LinkedList<>();
+		
+		if(n == null) return ans;
+		
+		q.add(n);
+		while(!q.isEmpty()) {
+			
+			int size = q.size();
+			List<Integer> a = new ArrayList<>();
+			for(int i = 0; i < size; i++) {
+				
+				a.add(q.peek().data);
+				if(q.peek().left != null) {
+					q.add(q.peek().left);
+				}
+				if(q.peek().right != null) {
+					q.add(q.peek().right);
+				}
+				
+				q.poll();
+			}
+			ans.add(a);
+			
+		}
+		
+		return ans;
+	}
+	
+	
+	public static void reverse(List<Integer> a) {
+		
+		int low = 0;
+		int high = a.size()-1;
+		
+		while(low < high) {
+			int temp = a.get(low);
+			a.set(low, a.get(high));
+			a.set(high, temp);
+			low+=1;
+			high-=1;
+		}
+		
+	}
+	
+    public static List<List<Integer>> zigzagLevelOrder(Node root) {
+    	List<List<Integer>> a = traverse(root);
+    	
+    	for(int i = 0 ; i < a.size(); i++) {
+    		if(i%2 != 0) {
+    			reverse(a.get(i));
+    		}
+    	}
+    	
+    	return a;
+    }
+
+	public static void main(String[] args) {
+		
+		Node n = new Node(3);
+		n.left = new Node(9);
+		n.right = new Node(20);
+		
+		n.right.left = new Node(15);
+		n.right.right = new Node(7);
+		
+		List<List<Integer>> a =  zigzagLevelOrder(n);
+		
+		System.out.println(a);
+
+	}
+
+}
