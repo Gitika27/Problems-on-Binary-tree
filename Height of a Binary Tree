@@ -1,0 +1,68 @@
+package com.practice.examples.dsa;
+
+import java.util.*;
+
+public class HeightOfBinaryTree {
+	
+	
+	static int height = 0;
+	
+	public static int getHeightRecursive(Node root) {
+		
+		if(root == null)
+			return 0;
+		
+		if(root.left == null && root.right == null) {
+			return height+=1;
+		}
+		
+		getHeightRecursive(root.left);
+		getHeightRecursive(root.right);
+		
+		return height;
+		
+	}
+	
+	public static int getHeight(Node root) {
+		
+		Queue<Node> q = new LinkedList<>();
+		int height = 0;
+		q.add(root);
+		while(!q.isEmpty()) {
+			int level = q.size();
+			height+=1;
+			for(int i = 0; i < level; i++) {
+				if(q.peek().left != null) {
+					q.add(q.peek().left);
+				}
+				if(q.peek().right != null) {
+					q.add(q.peek().right);
+				}
+				q.poll();
+			}
+			
+
+		}
+		
+		return height;
+		
+	}
+
+	public static void main(String[] args) {
+		
+		Node n = new Node(1);
+		n.left = new Node(2);
+		n.right = new Node(3);
+		
+		n.left.left = new Node(4);
+		n.left.right = new Node(5);
+		
+		n.right.left = new Node(6);
+		n.right.right = new Node(7);
+		
+		//System.out.println(getHeight(n));
+		System.out.println(getHeightRecursive(n));
+		
+	}
+
+}
