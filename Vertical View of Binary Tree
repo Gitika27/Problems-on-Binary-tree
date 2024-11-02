@@ -1,0 +1,132 @@
+package com.practice.examples.dsa;
+
+import java.util.*;
+
+
+class Pair <K,V>{
+	
+	K key;
+	V value;
+	
+	public Pair(K key, V value) {
+		super();
+		this.key = key;
+		this.value = value;
+	}
+
+	public K getKey() {
+		return key;
+	}
+
+	public void setKey(K key) {
+		this.key = key;
+	}
+
+	public V getValue() {
+		return value;
+	}
+
+	public void setValue(V value) {
+		this.value = value;
+	}
+	
+	
+	
+}
+
+public class VerticalTraverse {
+	
+	
+	public static void traverse(Map<Integer, Map<Integer, PriorityQueue<Integer>>> map, Node n, int row, int col) {
+		
+		Queue<Pair<Node, Pair<Integer,Integer>>> q = new LinkedList<>();
+		q.add(new Pair(n,new Pair(row,col)));
+		
+		while(!q.isEmpty()) {
+			
+			Pair<Node, Pair<Integer,Integer>> first = q.poll();
+			Node peekNode = first.getKey();
+			Pair<Integer,Integer> vertices = first.getValue();
+			int r = vertices.getKey();
+			int c = vertices.getValue();
+			
+			if(peekNode.left!=null) {
+				q.add(new Pair(peekNode.left,new Pair(r+1,c-1)));
+			}
+			if(peekNode.right!=null) {
+				q.add(new Pair(peekNode.right, new Pair(r+1,c+1)));
+			}
+			
+			if(map.containsKey(c)) {
+				Map<Integer, PriorityQueue<Integer>> d = map.get(c); // for a column
+				
+				if(d.containsKey(r)) {
+					PriorityQueue<Integer> pq = d.get(r);
+					pq.add(peekNode.data);
+					d.put(r, pq);
+					map.put(c, d);
+				}
+				else {
+					PriorityQueue<Integer> pq = new PriorityQueue();
+					pq.add(peekNode.data);
+					d.put(r, pq);
+					map.put(c, d);
+				
+				}
+				
+			}
+			else {
+				Map<Integer, PriorityQueue<Integer>> d = new TreeMap<>();
+				PriorityQueue<Integer> pq = new PriorityQueue();
+				pq.add(peekNode.data);
+				d.put(r, pq);
+				map.put(c, d);
+				
+			}
+			
+			
+		}
+		
+	}
+
+
+	public static void main(String[] args) {
+		
+		Node n = new Node(1);
+		n.left = new Node(2);
+		n.right = new Node(3);
+		
+		n.left.left = new Node(4);
+		n.left.right = new Node(6);
+		
+		n.right.left = new Node(5);
+		n.right.right = new Node(7);
+		
+	
+		Map<Integer,Map<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();
+		traverse(map,n,0,0);
+		List<List<Integer>> ans = new ArrayList<>();
+		
+		for(int i : map.keySet()) {
+			ArrayList<Integer> a = new ArrayList<>();
+			Map<Integer, PriorityQueue<Integer>> val = map.get(i);
+			
+			for(int j : val.keySet()) {
+				PriorityQueue<Integer> pq = val.get(j);
+				
+				while(!pq.isEmpty()) {
+					a.add(pq.poll());
+				}
+				
+				
+			}
+			ans.add(a);
+			
+			
+			
+		}
+		System.out.println(ans.toString());
+
+	}
+
+}
