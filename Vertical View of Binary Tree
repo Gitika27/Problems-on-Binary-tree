@@ -1,0 +1,95 @@
+package com.practice.examples.dsa;
+
+import java.util.*;
+
+class Pair <K,V>{
+	
+	K key;
+	V value;
+	
+	public Pair(K key, V value) {
+		super();
+		this.key = key;
+		this.value = value;
+	}
+
+	public K getKey() {
+		return key;
+	}
+
+	public void setKey(K key) {
+		this.key = key;
+	}
+
+	public V getValue() {
+		return value;
+	}
+
+	public void setValue(V value) {
+		this.value = value;
+	}
+	
+	
+	
+}
+
+public class TopViewBinaryTree {
+
+	
+	public static ArrayList<Integer> topView(Node n, int x, int y) {
+		
+		ArrayList<Integer> ans = new ArrayList<>();
+		Map<Integer,ArrayList<Integer>> d = new TreeMap<>();
+		Queue<Pair> q = new LinkedList<>();
+	
+		q.add(new Pair(n, new Pair(x,y)));
+		
+		
+		while(!q.isEmpty()) {
+			
+			Pair<Node,Pair<Integer,Integer>> poll = q.poll();
+			
+			Node node = poll.getKey();
+			Pair<Integer,Integer> vertices = poll.getValue();
+			int row = vertices.getKey();
+			int col = vertices.getValue();
+			
+			d.computeIfAbsent(col, k -> new ArrayList<>()).add(node.data);
+			
+			if(node.left != null) {
+				q.add(new Pair(node.left,new Pair(row+1,col-1)));
+			}
+			if(node.right != null) {
+				q.add(new Pair(node.right, new Pair(row+1,col+1)));
+			}
+		}
+		
+		System.out.println(d.toString());
+		
+		for(Integer i : d.keySet()) {
+			
+			ans.add(d.get(i).get(0));
+		}
+		
+		return ans;
+	}
+
+
+	public static void main(String[] args) {
+		
+
+		Node n = new Node(2);
+		n.left = new Node(1);
+		n.right = new Node(4);
+
+		n.right.left = new Node(3);
+		n.right.right = new Node(6);
+		
+		n.right.right.left = new Node(5);
+		
+		ArrayList<Integer> ans = topView(n,0,0);
+		System.out.println(ans.toString());
+
+	}
+
+}
