@@ -1,0 +1,86 @@
+package com.practice.examples.dsa;
+
+import java.util.*;
+
+public class TreeBoundaryTraversal {
+
+	
+	static ArrayList <Integer> ans = new ArrayList<>();
+	
+	public static void leftTraverse(Node n) {
+		
+		if(n == null)
+			return;
+		
+
+		if(!(n.left == null && n.right == null)) ans.add(n.data);
+		if(n.left == null)
+			leftTraverse(n.right);
+		leftTraverse(n.left);
+		
+	}
+	
+	public static void rightTraverse(Node n) {
+		
+		if(n == null)
+			return;
+		
+		if(n.right == null) 
+			rightTraverse(n.left);
+		rightTraverse(n.right);
+		if(!(n.left == null && n.right == null)) ans.add(n.data); 
+		
+		
+	}
+	
+	public static void leafTraverse(Node n,Node head) {
+		
+		if(n == null)
+			return;
+		
+		if(n.left == null && n.right == null && n!=head) ans.add(n.data);
+		leafTraverse(n.left,head);
+		leafTraverse(n.right,head);
+		
+		
+	}
+	
+	public static void traverse(Node n) {
+		
+		Node head = n;
+		ans.add(n.data);
+		leftTraverse(n.left);
+		leafTraverse(n,head);
+		rightTraverse(n.right);
+		
+		
+	}
+
+
+	public static void main(String[] args) {
+		
+		Node n = new Node(1);
+		
+		/*
+		n.left = new Node(2);
+		n.right = new Node(7);
+		
+		n.left.left = new Node(3);
+		n.left.left.right = new Node(4);
+		n.left.left.right.left = new Node(5);
+		n.left.left.right.right = new Node(6);
+		
+		n.right.right = new Node(8);
+		n.right.right.left = new Node(9);
+		
+		n.right.right.left.left = new Node(10);
+		n.right.right.left.right = new Node(11);*/
+		
+		
+		traverse(n);
+		
+		System.out.println(ans.toString());
+
+	}
+
+}
