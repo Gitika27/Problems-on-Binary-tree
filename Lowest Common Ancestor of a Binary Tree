@@ -1,0 +1,52 @@
+package com.practice.examples.dsa;
+
+public class LowestCommonAncestor_1 {
+	
+	public static Node lca(Node n, Node p, Node q) {
+		
+		if(n == null)
+			return null;
+		
+		if(n == p || n == q) {
+			return n;
+		}
+		
+		Node left = lca(n.left,p,q);
+		Node right = lca(n.right,p,q);
+		
+		if(left != null && right != null) {
+			return n;
+		}
+		else if (left == null && right!=null) {
+			return right;
+		}
+		else if (left != null && right == null) {
+			return left;
+		}
+		else {
+			return null;
+		}
+		
+	}
+
+	public static void main(String[] args) {
+		
+		Node n = new Node(3);
+		n.left = new Node(5);
+		n.right = new Node(1);
+		
+		n.left.left = new Node(6);
+		n.left.right = new Node(2);
+		
+		n.left.right.left = new Node(7);
+		n.left.right.right = new Node(4);
+		
+		n.right.left = new Node(0);
+		n.right.right = new Node(8);
+		
+		Node ans = lca(n,n.left,n.right);
+		System.out.println(ans.data);
+
+	}
+
+}
